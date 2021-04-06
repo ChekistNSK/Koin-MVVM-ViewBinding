@@ -52,4 +52,7 @@ dependencies {
     implementation "org.koin:koin-androidx-scope:$koin_version"
     // Koin AndroidX ViewModel features
     implementation "org.koin:koin-androidx-viewmodel:$koin_version"
+
+    // Coroutines
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.3'
 }

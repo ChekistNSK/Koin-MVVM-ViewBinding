@@ -3,7 +3,11 @@ package com.evgenyfedin.flow
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.core.view.isVisible
+import androidx.lifecycle.lifecycleScope
 import com.evgenyfedin.flow.databinding.ActivityMainBinding
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import org.koin.android.ext.android.inject
 
 class MainActivity : AppCompatActivity() {
@@ -17,18 +21,17 @@ class MainActivity : AppCompatActivity() {
         val view = viewBinding.root
         setContentView(view)
 
-        this.viewModel.message.observe(this) { message ->
+        viewModel.message.onEach { message ->
             viewBinding.textView.text = message
-        }
+        }.launchThenStarted(lifecycleScope)
 
-        this.viewModel.messageVisible.observe(this) { visible ->
+        viewModel.messageVisible.onEach { visible ->
             viewBinding.checkBox.isChecked = visible
             viewBinding.textView.isVisible = visible
-        }
+        }.launchThenStarted(lifecycleScope)
 
         viewBinding.checkBox.setOnCheckedChangeListener { _, isChecked ->
             viewModel.setMessageVisible(isChecked)
         }
-
     }
 }

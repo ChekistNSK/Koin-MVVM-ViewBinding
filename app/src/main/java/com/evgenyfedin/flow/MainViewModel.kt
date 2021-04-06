@@ -4,21 +4,22 @@ import androidx.annotation.MainThread
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 
 class MainViewModel : ViewModel() {
 
-    private val _message = MutableLiveData<String>().apply { value = "Android LiveData" }
-    val message: LiveData<String> get() = _message
+    private val _message = MutableStateFlow("Android LiveData")
+    val message: StateFlow<String> get() = _message.asStateFlow()
 
-    private val _messageVisible = MutableLiveData<Boolean>().apply { value = true }
-    val messageVisible: LiveData<Boolean> get() = _messageVisible
+    private val _messageVisible = MutableStateFlow(true)
+    val messageVisible: StateFlow<Boolean> get() = _messageVisible.asStateFlow()
 
-    @MainThread
     fun setUserMessage(msg: String) {
         _message.value = msg
     }
 
-    @MainThread
     fun setMessageVisible(visible: Boolean) {
         _messageVisible.value = visible
     }
